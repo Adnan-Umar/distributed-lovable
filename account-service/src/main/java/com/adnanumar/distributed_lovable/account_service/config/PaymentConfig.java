@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaymentConfig {
 
-    @Value("${stripe.api.secret}")
+    @Value("${stripe.api.key}")
     String stripeSecretKey;
 
     @PostConstruct
