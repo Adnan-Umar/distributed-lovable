@@ -1,4 +1,4 @@
-package com.adnanumar.distributed_lovable.workspace_service.dto.project;
+package com.adnanumar.distributed_lovable.common_lib.dto;
 
 public record FileNode(
         String path
@@ -8,5 +8,5 @@ public record FileNode(
     public String toString() {
         return path;
     }
-
+    
 }

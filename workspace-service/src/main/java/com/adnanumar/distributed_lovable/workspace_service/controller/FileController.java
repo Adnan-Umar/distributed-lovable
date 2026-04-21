@@ -1,7 +1,7 @@
 package com.adnanumar.distributed_lovable.workspace_service.controller;
 
+import com.adnanumar.distributed_lovable.common_lib.dto.FileTreeDto;
 import com.adnanumar.distributed_lovable.workspace_service.dto.project.FileContentResponse;
-import com.adnanumar.distributed_lovable.workspace_service.dto.project.FileTreeResponse;
 import com.adnanumar.distributed_lovable.workspace_service.service.ProjectFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +15,12 @@ public class FileController {
     private final ProjectFileService projectFileService;
 
     @GetMapping
-    public ResponseEntity<FileTreeResponse> getFileTree(@PathVariable Long projectId) {
+    public ResponseEntity<FileTreeDto> getFileTree(@PathVariable Long projectId) {
         return ResponseEntity.ok(projectFileService.getFileTree(projectId));
     }
 
     @GetMapping("/content")
-    public ResponseEntity<FileContentResponse> getFile(
+    public ResponseEntity<String> getFile(
             @PathVariable Long projectId,
             @RequestParam String path) {
         return ResponseEntity.ok(projectFileService.getFileContent(projectId, path));
