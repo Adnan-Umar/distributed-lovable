@@ -1,4 +1,4 @@
-package com.adnanumar.distributed_lovable.workspace_service.security;
+package com.adnanumar.distributed_lovable.intelligence_service.security;
 
 import com.adnanumar.distributed_lovable.common_lib.security.JwtAuthFilter;
 import jakarta.servlet.DispatcherType;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 @EnableMethodSecurity
-public class WorkspaceSecurityConfig {
+public class IntelligenceSecurityConfig {
 
     final JwtAuthFilter jwtAuthFilter;
     final HandlerExceptionResolver handlerExceptionResolver;

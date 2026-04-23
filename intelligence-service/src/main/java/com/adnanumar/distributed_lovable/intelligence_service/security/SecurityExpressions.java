@@ -1,8 +1,8 @@
-package com.adnanumar.distributed_lovable.workspace_service.security;
+package com.adnanumar.distributed_lovable.intelligence_service.security;
 
 import com.adnanumar.distributed_lovable.common_lib.enums.ProjectPermission;
 import com.adnanumar.distributed_lovable.common_lib.security.AuthUtil;
-import com.adnanumar.distributed_lovable.workspace_service.repository.ProjectMemberRepository;
+import com.adnanumar.distributed_lovable.intelligence_service.client.WorkspaceClient;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,15 +13,11 @@ import org.springframework.stereotype.Component;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SecurityExpressions {
 
-    final ProjectMemberRepository projectMemberRepository;
     final AuthUtil authUtil;
+    final WorkspaceClient workspaceClient;
 
-    public boolean hasPermission(Long projectId, ProjectPermission permission) {
-        Long userId = authUtil.getCurrentUserId();
-
-        return projectMemberRepository.findRoleByProjectIdAndUserId(projectId, userId)
-                .map(role -> role.getPermissions().contains(permission))
-                .orElse(false);
+    private boolean hasPermission(Long projectId, ProjectPermission permission) {
+        return workspaceClient.checkProjectPermission(projectId, permission);
     }
 
     public boolean canViewProject(Long projectId) {

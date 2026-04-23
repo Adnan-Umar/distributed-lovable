@@ -1,6 +1,7 @@
 package com.adnanumar.distributed_lovable.workspace_service.controller;
 
 import com.adnanumar.distributed_lovable.common_lib.dto.FileTreeDto;
+import com.adnanumar.distributed_lovable.common_lib.enums.ProjectPermission;
 import com.adnanumar.distributed_lovable.workspace_service.service.ProjectFileService;
 import com.adnanumar.distributed_lovable.workspace_service.service.ProjectService;
 import lombok.AccessLevel;
@@ -25,6 +26,14 @@ public class InternalWorkspaceController {
     @GetMapping("/projects/{projectId}/files/content")
     public String getFileContent(@PathVariable("projectId") Long projectId, @RequestParam("path") String path) {
         return projectFileService.getFileContent(projectId, path);
+    }
+
+    @GetMapping("/projects/{projectId}/permissions/check")
+    public boolean checkProjectPermission(
+            @PathVariable Long projectId,
+            @RequestParam ProjectPermission permission
+    ) {
+        return projectService.hasPermission(projectId, permission);
     }
 
 }

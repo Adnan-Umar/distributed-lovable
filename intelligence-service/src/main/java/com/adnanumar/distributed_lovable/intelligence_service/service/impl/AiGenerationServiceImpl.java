@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Pattern;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -50,8 +49,6 @@ public class AiGenerationServiceImpl implements AiGenerationService {
     final ChatEventRepository chatEventRepository;
     final UsageService usageService;
     final WorkspaceClient workspaceClient;
-
-    private static final Pattern FILE_TAG_PATTERN = Pattern.compile("<file path=\"([^\"]+)\">(.*?)</file>", Pattern.DOTALL);
 
     @Override
     @PreAuthorize("@security.canEditProject(#projectId)")
@@ -177,29 +174,5 @@ public class AiGenerationServiceImpl implements AiGenerationService {
         }
         return chatSession;
     }
-
-//    private void parseAndSaveFiles(String fullResponse, Long projectId) {
-////        String dummy = """
-////                <message> I'm going to read the file and generate the code </message>
-////                <file path="src/app.jsx">
-////                    import app from './App.jsx'
-////                    .....
-////                </file>
-////                <message> I'm going to read the file and generate the code </message>
-////                <file path="src/app.jsx">
-////                    import app from './App.jsx'
-////                    .....
-////                </file>
-////                """;
-//
-//        Matcher matcher = FILE_TAG_PATTERN.matcher(fullResponse);
-//
-//        while (matcher.find()) {
-//            String filePath = matcher.group(1);
-//            String fileContent = matcher.group(2).trim();
-//
-//            projectFileService.saveFile(projectId, filePath, fileContent);
-//        }
-//    }
 
 }

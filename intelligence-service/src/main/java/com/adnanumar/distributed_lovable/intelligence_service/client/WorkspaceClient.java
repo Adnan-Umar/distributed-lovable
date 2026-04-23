@@ -1,6 +1,7 @@
 package com.adnanumar.distributed_lovable.intelligence_service.client;
 
 import com.adnanumar.distributed_lovable.common_lib.dto.FileTreeDto;
+import com.adnanumar.distributed_lovable.common_lib.enums.ProjectPermission;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,5 +15,10 @@ public interface WorkspaceClient {
 
     @GetMapping("/internal/v1/projects/{projectId}/files/content")
     String getFileContent(@PathVariable("projectId") Long projectId, @RequestParam("path") String path);
+
+    @GetMapping("/internal/v1/projects/{projectId}/permissions/check")
+    boolean checkProjectPermission(
+            @PathVariable Long projectId,
+            @RequestParam ProjectPermission permission);
 
 }
