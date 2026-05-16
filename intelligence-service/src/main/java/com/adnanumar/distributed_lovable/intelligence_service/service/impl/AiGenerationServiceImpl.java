@@ -2,6 +2,7 @@ package com.adnanumar.distributed_lovable.intelligence_service.service.impl;
 
 import com.adnanumar.distributed_lovable.common_lib.enums.ChatEventType;
 import com.adnanumar.distributed_lovable.common_lib.enums.MessageRole;
+import com.adnanumar.distributed_lovable.common_lib.event.FileStoreRequestEvent;
 import com.adnanumar.distributed_lovable.common_lib.security.AuthUtil;
 import com.adnanumar.distributed_lovable.intelligence_service.client.WorkspaceClient;
 import com.adnanumar.distributed_lovable.intelligence_service.dto.chat.StreamResponse;
@@ -24,6 +25,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.metadata.Usage;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -49,6 +51,7 @@ public class AiGenerationServiceImpl implements AiGenerationService {
     final ChatEventRepository chatEventRepository;
     final UsageService usageService;
     final WorkspaceClient workspaceClient;
+    final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Override
     @PreAuthorize("@security.canEditProject(#projectId)")
@@ -104,7 +107,7 @@ public class AiGenerationServiceImpl implements AiGenerationService {
 
                         long duration = (endTime.get() - startTime.get()) / 1000;
 
-                        finalizeChats(userMessage, chatSession, fullResponseBuffer.toString(), duration, usageRef.get());
+                        finalizeChats(userMessage, chatSession, fullResponseBuffer.toString(), duration, usageRef.get(), userId);
                     });
                 })
                 .doOnError(error -> log.error("Error during streaming for projectID: {}", projectId, error))
@@ -116,7 +119,7 @@ public class AiGenerationServiceImpl implements AiGenerationService {
 
     // Utility Methods
 
-    private void finalizeChats(String userMessage, ChatSession chatSession, String fullText, Long duration, Usage usage) {
+    private void finalizeChats(String userMessage, ChatSession chatSession, String fullText, Long duration, Usage usage, Long userId) {
         Long projectId = chatSession.getId().getProjectId();
 
         if (usage != null) {
@@ -155,7 +158,16 @@ public class AiGenerationServiceImpl implements AiGenerationService {
         chatEventList.stream()
                 .filter(e -> e.getType() == ChatEventType.FILE_EDIT)
                 .forEach(e -> {
-//                    projectFileService.saveFile(projectId, e.getFilePath(), e.getContent()); TODO: kafka
+                    FileStoreRequestEvent fileStoreRequestEvent = new FileStoreRequestEvent(
+                            projectId,
+                            "",
+                            e.getFilePath(),
+                            e.getContent(),
+                            userId
+                    );
+                    log.info("Storage request event sent : {}", e.getFilePath());
+                    kafkaTemplate.send("file-storage-request-event-topic",
+                            "project-"+projectId, fileStoreRequestEvent);
                 });
 
         chatEventRepository.saveAll(chatEventList);
