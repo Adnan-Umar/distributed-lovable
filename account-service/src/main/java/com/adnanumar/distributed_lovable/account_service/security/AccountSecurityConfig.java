@@ -1,6 +1,7 @@
 package com.adnanumar.distributed_lovable.account_service.security;
 
 import com.adnanumar.distributed_lovable.common_lib.security.JwtAuthFilter;
+import jakarta.servlet.DispatcherType;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -35,6 +36,9 @@ public class AccountSecurityConfig {
                 .sessionManagement(sessionConfig -> sessionConfig
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        /// ⭐ Allow async dispatch for streaming endpoints
+                        .dispatcherTypeMatchers(DispatcherType.ASYNC).permitAll()
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/auth/**", "/webhooks/**").permitAll()
                         .anyRequest().authenticated()
                 )
