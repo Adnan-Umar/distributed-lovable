@@ -1,5 +1,6 @@
 package com.adnanumar.distributed_lovable.intelligence_service.service.impl;
 
+import com.adnanumar.distributed_lovable.common_lib.enums.ChatEventStatus;
 import com.adnanumar.distributed_lovable.common_lib.enums.ChatEventType;
 import com.adnanumar.distributed_lovable.common_lib.enums.MessageRole;
 import com.adnanumar.distributed_lovable.common_lib.event.FileStoreRequestEvent;
@@ -34,6 +35,7 @@ import reactor.core.scheduler.Schedulers;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -150,6 +152,7 @@ public class AiGenerationServiceImpl implements AiGenerationService {
         List<ChatEvent> chatEventList = llmResponseParser.parseChatEvents(fullText, assistantChatMessage);
         chatEventList.addFirst(ChatEvent.builder()
                         .type(ChatEventType.THOUGHT)
+                        .status(ChatEventStatus.CONFIRMED)
                         .chatMessage(assistantChatMessage)
                         .content("Thought for " + duration + "s")
                         .sequenceOrder(0)
@@ -158,9 +161,11 @@ public class AiGenerationServiceImpl implements AiGenerationService {
         chatEventList.stream()
                 .filter(e -> e.getType() == ChatEventType.FILE_EDIT)
                 .forEach(e -> {
+                    String sagaId = UUID.randomUUID().toString();
+                    e.setSagaId(sagaId);
                     FileStoreRequestEvent fileStoreRequestEvent = new FileStoreRequestEvent(
                             projectId,
-                            "",
+                            sagaId,
                             e.getFilePath(),
                             e.getContent(),
                             userId

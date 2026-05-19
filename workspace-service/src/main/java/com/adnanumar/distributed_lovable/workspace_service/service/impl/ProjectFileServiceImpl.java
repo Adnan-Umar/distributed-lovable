@@ -3,7 +3,6 @@ package com.adnanumar.distributed_lovable.workspace_service.service.impl;
 import com.adnanumar.distributed_lovable.common_lib.dto.FileNode;
 import com.adnanumar.distributed_lovable.common_lib.dto.FileTreeDto;
 import com.adnanumar.distributed_lovable.common_lib.error.ResourceNotFoundException;
-import com.adnanumar.distributed_lovable.workspace_service.dto.project.FileContentResponse;
 import com.adnanumar.distributed_lovable.workspace_service.entity.Project;
 import com.adnanumar.distributed_lovable.workspace_service.entity.ProjectFile;
 import com.adnanumar.distributed_lovable.workspace_service.mapper.ProjectFileMapper;
@@ -13,6 +12,7 @@ import com.adnanumar.distributed_lovable.workspace_service.service.ProjectFileSe
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -68,6 +68,7 @@ public class ProjectFileServiceImpl implements ProjectFileService {
     }
 
     @Override
+    @Transactional
     public void saveFile(Long projectId, String path, String content) {
         Project project = projectRepository.findById(projectId).orElseThrow(
                 () -> new ResourceNotFoundException("Project", projectId.toString())
