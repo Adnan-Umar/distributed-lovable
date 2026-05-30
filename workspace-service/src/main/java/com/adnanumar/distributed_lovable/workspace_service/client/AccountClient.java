@@ -14,7 +14,7 @@ public interface AccountClient {
     @GetMapping("/internal/v1/users/by-email")
     Optional<UserDto> getUserByEmail(@RequestParam String email);
 
-    @GetMapping("/internal/v1//billing/current-plan")
+    @GetMapping("/internal/v1/billing/current-plan")
     PlanDto getCurrentSubscribedPlan();
 
 }

@@ -8,6 +8,7 @@ import com.adnanumar.distributed_lovable.workspace_service.service.DeploymentSer
 import com.adnanumar.distributed_lovable.workspace_service.service.ProjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
+@Slf4j
 public class ProjectController {
 
     private final ProjectService projectService;
@@ -34,6 +36,7 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<ProjectResponse> createProject(@RequestBody @Valid ProjectRequest request) {
+        log.info("CREATE PROJECT CONTROLLER HIT");
         return ResponseEntity.status(HttpStatus.CREATED).body(projectService.createProject(request));
     }
 
