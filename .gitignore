@@ -3,6 +3,8 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+.idea
+.vscode
 
 ### STS ###
 .apt_generated
@@ -33,3 +35,4 @@ build/
 server/.vscode/
 server/.vscode
 /server/k8s/.env
+.env
