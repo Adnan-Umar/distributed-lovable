@@ -2,7 +2,7 @@
 
 # Distributed Lovable
 
-**An AI-powered, full-stack platform for building web apps through conversation — with live preview, collaborative workspaces, and a cloud-native microservices backend.**
+**An AI-powered, full-stack platform for building web apps through conversation — with live preview, collaborative workspaces, event-driven architecture powered by Kafka, real-time SSE streaming, and a cloud-native microservices backend.**
 
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.5-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2025.1.1-6DB33F?logo=spring&logoColor=white)](https://spring.io/projects/spring-cloud)
@@ -11,6 +11,12 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Kafka](https://img.shields.io/badge/Apache%20Kafka-Event--Driven-231F20?logo=apachekafka&logoColor=white)](https://kafka.apache.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-pgvector-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-Caching-FF4438?logo=redis&logoColor=white)](https://redis.io/)
+[![MinIO](https://img.shields.io/badge/MinIO-Object%20Storage-C72E49?logo=minio&logoColor=white)](https://min.io/)
+[![Spring AI](https://img.shields.io/badge/Spring%20AI-2.0.0--M4-6DB33F?logo=spring&logoColor=white)](https://spring.io/projects/spring-ai)
+[![Stripe](https://img.shields.io/badge/Stripe-Billing-635BFF?logo=stripe&logoColor=white)](https://stripe.com/)
 
 </div>
 
