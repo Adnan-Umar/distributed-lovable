@@ -36,3 +36,5 @@ server/.vscode/
 server/.vscode
 /server/k8s/.env
 .env
+
+.docs
